@@ -1,8 +1,10 @@
 package com.isavenko.shoppinglist.dao;
 
-public interface EntityDao<T, K> {
+import java.io.Serializable;
 
-    void insert(T entity) throws Exception;
+public interface EntityDao<T, K extends Serializable> {
 
-    T get(K entityKey) throws Exception;
+	void insert(T entity) throws Exception;
+
+	T get(K entityKey) throws Exception;
 }
