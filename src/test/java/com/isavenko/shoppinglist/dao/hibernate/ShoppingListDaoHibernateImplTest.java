@@ -8,18 +8,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.isavenko.shoppinglist.entity.ShoppingItem;
+import com.isavenko.shoppinglist.entity.ShoppingList;
 
-public class ShoppingItemDaoHibernateImplTest {
+public class ShoppingListDaoHibernateImplTest {
 
-    private ShoppingItemDaoHibernateImpl shoppingItemDao;
+    private ShoppingListDaoHibernateImpl shoppingListDao;
     private HibernateTemplate hibernateTemplate;
 
     @Before
     public void setUp() throws Exception {
 	hibernateTemplate = EasyMock.createStrictMock(HibernateTemplate.class);
-	shoppingItemDao = new ShoppingItemDaoHibernateImpl();
-	shoppingItemDao.setHibernateTemplate(hibernateTemplate);
+	shoppingListDao = new ShoppingListDaoHibernateImpl();
+	shoppingListDao.setHibernateTemplate(hibernateTemplate);
     }
 
     @After
@@ -28,41 +28,41 @@ public class ShoppingItemDaoHibernateImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testInsert_nullObject() throws Exception {
-	shoppingItemDao.insert(null);
+	shoppingListDao.insert(null);
     }
 
     @Test
     public void testInsert() throws Exception {
-	final ShoppingItem entity = new ShoppingItem();
+	final ShoppingList entity = new ShoppingList();
 	hibernateTemplate.saveOrUpdate(entity);
 	EasyMock.expectLastCall();
 	EasyMock.replay(hibernateTemplate);
 
-	shoppingItemDao.insert(entity);
+	shoppingListDao.insert(entity);
 	EasyMock.verify(hibernateTemplate);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGet_nullKey() throws Exception {
-	shoppingItemDao.get(null);
+	shoppingListDao.get(null);
     }
 
     @Test(expected = Exception.class)
     public void testGet_inexistentKey() throws Exception {
-	shoppingItemDao.get(1L);
+	shoppingListDao.get(1L);
     }
 
     @Test
     public void testGet() throws Exception {
-	final ShoppingItem expectedShoppingItem = new ShoppingItem();
-	expectedShoppingItem.setId(1L);
+	final ShoppingList expectedShoppingList = new ShoppingList();
+	expectedShoppingList.setId(1L);
 
-	EasyMock.expect(hibernateTemplate.get(ShoppingItem.class, 1L)).andReturn(expectedShoppingItem);
+	EasyMock.expect(hibernateTemplate.get(ShoppingList.class, 1L)).andReturn(expectedShoppingList);
 	EasyMock.replay(hibernateTemplate);
 
-	final ShoppingItem shoppingItem = shoppingItemDao.get(1L);
+	final ShoppingList shoppingList = shoppingListDao.get(1L);
 
-	Assert.assertEquals(expectedShoppingItem, shoppingItem);
+	Assert.assertEquals(expectedShoppingList, shoppingList);
 	EasyMock.verify(hibernateTemplate);
     }
 

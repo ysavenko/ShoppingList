@@ -6,11 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.isavenko.shoppinglist.dao.hibernate.ShoppingItemDaoHibernateImpl;
-import com.isavenko.shoppinglist.entity.ShoppingItem;
+import com.isavenko.shoppinglist.dao.hibernate.UserDaoHibernateImpl;
+import com.isavenko.shoppinglist.entity.User;
 
-public class ShoppingItemDaoHibernateImplTest extends
-        AbstractDaoHibernateImplTest<ShoppingItemDaoHibernateImpl, ShoppingItem, Long> {
+public class UserDaoHibernateImplTest extends AbstractDaoHibernateImplTest<UserDaoHibernateImpl, User, Long> {
 
     @Before
     public void setUp() throws Exception {
@@ -22,7 +21,7 @@ public class ShoppingItemDaoHibernateImplTest extends
 
     @Test
     public void testInsert() throws Exception {
-	final ShoppingItem entity = new ShoppingItem();
+	final User entity = new User();
 	entity.setName("name");
 	getEntityDao().insert(entity);
     }
@@ -34,18 +33,18 @@ public class ShoppingItemDaoHibernateImplTest extends
 
     @Test
     public void testGet() throws Exception {
-	final ShoppingItem entity = new ShoppingItem();
+	final User entity = new User();
 	entity.setName("name");
 	getEntityDao().insert(entity);
 
-	final ShoppingItem shoppingItem = getEntityDao().get(entity.getId());
+	final User User = getEntityDao().get(entity.getId());
 
-	Assert.assertEquals(entity.getName(), shoppingItem.getName());
+	Assert.assertEquals(entity.getName(), User.getName());
     }
 
     @Override
-    protected ShoppingItemDaoHibernateImpl createDao() {
-	return new ShoppingItemDaoHibernateImpl();
+    protected UserDaoHibernateImpl createDao() {
+	return new UserDaoHibernateImpl();
     }
 
 }

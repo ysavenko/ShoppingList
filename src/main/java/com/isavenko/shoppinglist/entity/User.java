@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Table
 @Entity
-public class ShoppingItem implements BaseEntity, Serializable, Cloneable {
+public class User implements BaseEntity, Serializable {
 
     private static final long serialVersionUID = 02042012L;
 
@@ -19,7 +19,7 @@ public class ShoppingItem implements BaseEntity, Serializable, Cloneable {
 
     private String name;
 
-    @Column
+    @Column(unique = true)
     public String getName() {
 	return name;
     }

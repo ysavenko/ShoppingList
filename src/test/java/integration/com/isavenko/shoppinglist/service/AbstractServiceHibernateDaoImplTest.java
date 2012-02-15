@@ -1,6 +1,4 @@
-package integration.com.isavenko.shoppinglist.dao.hibernate;
-
-import java.io.Serializable;
+package integration.com.isavenko.shoppinglist.service;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -8,22 +6,23 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.HSQLDialect;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.isavenko.shoppinglist.dao.hibernate.AbstractEntityDao;
+import com.isavenko.shoppinglist.dao.hibernate.ShoppingItemDaoHibernateImpl;
+import com.isavenko.shoppinglist.dao.hibernate.ShoppingListDaoHibernateImpl;
+import com.isavenko.shoppinglist.dao.hibernate.UserDaoHibernateImpl;
 import com.isavenko.shoppinglist.entity.ShoppingItem;
 import com.isavenko.shoppinglist.entity.ShoppingList;
 import com.isavenko.shoppinglist.entity.User;
 
-public abstract class AbstractDaoHibernateImplTest<D extends AbstractEntityDao<T, K>, T, K extends Serializable> {
+public abstract class AbstractServiceHibernateDaoImplTest {
 
-    private D entityDao;
-
-    protected abstract D createDao();
+    protected ShoppingItemDaoHibernateImpl shoppingItemDao;
+    protected ShoppingListDaoHibernateImpl shoppingListDao;
+    protected UserDaoHibernateImpl userDao;
 
     @Before
-    public void setUpDao() throws Exception {
+    public void setUpDaos() throws Exception {
 	final Configuration configuration = new Configuration();
 	configuration.setProperty(Environment.DRIVER, "org.hsqldb.jdbcDriver");
 	configuration.setProperty(Environment.URL, "jdbc:hsqldb:mem:Test");
@@ -31,7 +30,8 @@ public abstract class AbstractDaoHibernateImplTest<D extends AbstractEntityDao<T
 	configuration.setProperty(Environment.DIALECT, HSQLDialect.class.getName());
 	configuration.setProperty(Environment.SHOW_SQL, "true");
 	configuration.setProperty(Environment.CACHE_PROVIDER_CONFIG, "org.hibernate.cache.NoCacheProvider");
-	configuration.setProperty(Environment.HBM2DDL_AUTO, "create-drop");
+
+	configuration.setProperty(Environment.HBM2DDL_AUTO, "create");
 	configuration.addAnnotatedClass(ShoppingItem.class);
 	configuration.addAnnotatedClass(ShoppingList.class);
 	configuration.addAnnotatedClass(User.class);
@@ -40,26 +40,18 @@ public abstract class AbstractDaoHibernateImplTest<D extends AbstractEntityDao<T
 
 	HibernateTemplate hibernateTemplate = new HibernateTemplate(sessionFactory);
 
-	entityDao = createDao();
-	getEntityDao().setHibernateTemplate(hibernateTemplate);
+	shoppingItemDao = new ShoppingItemDaoHibernateImpl();
+	shoppingItemDao.setHibernateTemplate(hibernateTemplate);
+
+	shoppingListDao = new ShoppingListDaoHibernateImpl();
+	shoppingListDao.setHibernateTemplate(hibernateTemplate);
+
+	userDao = new UserDaoHibernateImpl();
+	userDao.setHibernateTemplate(hibernateTemplate);
     }
 
     @After
     public void tearDown() throws Exception {
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testInsert_nullObject() throws Exception {
-	entityDao.insert(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGet_nullObject() throws Exception {
-	entityDao.get(null);
-    }
-
-    public D getEntityDao() {
-	return entityDao;
     }
 
 }
