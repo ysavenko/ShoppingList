@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.isavenko.shoppinglist.dao.hibernate.ShoppingListDaoHibernateImpl;
@@ -22,6 +23,7 @@ public class ShoppingListDaoHibernateImplTest extends
     }
 
     @Test
+    @Ignore
     public void testInsert() throws Exception {
 	final ShoppingList entity = new ShoppingList();
 	final User user = new User();
@@ -41,6 +43,7 @@ public class ShoppingListDaoHibernateImplTest extends
     }
 
     @Test
+    @Ignore
     public void testGet() throws Exception {
 	final ShoppingList expectredEntity = new ShoppingList();
 	final User expectedUser = new User();
